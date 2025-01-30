@@ -1,0 +1,6 @@
+<button [ngClass]="['icon-btn', color]"
+        (click)="onClick()"
+        [attr.title]="tooltip"
+        [type]="type">
+  <i [ngClass]="icon" [ngStyle]="{'color': color}"></i>
+</button>

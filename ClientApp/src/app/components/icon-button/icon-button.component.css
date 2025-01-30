@@ -1,0 +1,27 @@
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  background: transparent;
+}
+
+.icon-btn i {
+  transition: color 0.3s ease-in-out;
+}
+
+.icon-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
+}
+
+.icon-btn:hover i {
+  filter: brightness(85%);
+}

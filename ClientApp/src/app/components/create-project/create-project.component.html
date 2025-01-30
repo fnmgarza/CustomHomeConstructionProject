@@ -1,0 +1,188 @@
+<div class="create-project-container">
+  <h2>Create New Project</h2>
+
+  <form *ngIf="createProjectForm" [formGroup]="createProjectForm" (ngSubmit)="createProject()">
+
+    <!-- Project Details Section -->
+    <fieldset class="section" formGroupName="projectDetails">
+      <legend>Project Details</legend>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="projectName">Project Name:</label>
+          <input id="projectName" type="text" placeholder="Project Name" formControlName="projectName" required />
+          <p *ngIf="createProjectForm.get('projectDetails.projectName')?.invalid && createProjectForm.get('projectDetails.projectName')?.touched">
+            Project Name is required (3-100 characters).
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="startDate">Start Date:</label>
+          <input id="startDate" type="date" formControlName="startDate" required />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="estimatedCompletionDate">Estimated Completion Date:</label>
+          <input id="estimatedCompletionDate" type="date" formControlName="estimatedCompletionDate" required />
+        </div>
+
+        <div class="form-group">
+          <label for="budget">Budget ($):</label>
+          <input id="budget" type="number" placeholder="Budget" formControlName="budget" required />
+          <p *ngIf="createProjectForm.get('projectDetails.budget')?.invalid && createProjectForm.get('projectDetails.budget')?.touched">
+            Budget must be greater than 0.
+          </p>
+        </div>
+      </div>
+    </fieldset>
+
+    <hr />
+
+    <!-- Client Information Section -->
+    <fieldset class="section" formGroupName="client">
+      <legend>Client Information</legend>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="clientName">Name:</label>
+          <input id="clientName" type="text" placeholder="Client Name" formControlName="clientName" required />
+          <p *ngIf="createProjectForm.get('client.clientName')?.invalid && createProjectForm.get('client.clientName')?.touched"> Client Name must be between 3-100 characters.</p>
+        </div>
+      </div>
+
+      <!-- Address Section (Nested Form Group) -->
+      <fieldset class="sub-section" formGroupName="address">
+        <legend>Address</legend>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="street">Street Address:</label>
+            <input id="street" type="text" placeholder="Street Address" formControlName="street" required />
+            <p *ngIf="createProjectForm.get('client.address.street')?.invalid && createProjectForm.get('client.address.street')?.touched">
+              Address is required.
+            </p>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="city">City:</label>
+            <input id="city" type="text" placeholder="City" formControlName="city" required />
+            <p *ngIf="createProjectForm.get('client.address.city')?.invalid && createProjectForm.get('client.address.city')?.touched">
+              City is required.
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label for="state">State:</label>
+            <input id="state" type="text" placeholder="State" formControlName="state" required />
+            <p *ngIf="createProjectForm.get('client.address.state')?.invalid && createProjectForm.get('client.address.state')?.touched">
+              State is required.
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label for="zipCode">Zip Code:</label>
+            <input id="zipCode" type="text" placeholder="Zip Code" formControlName="zipCode" required />
+            <p *ngIf="createProjectForm.get('client.address.zipCode')?.invalid && createProjectForm.get('client.address.zipCode')?.touched">
+              Zip Code must be 5 digits.
+            </p>
+          </div>
+        </div>
+      </fieldset>
+
+
+      <hr />
+
+      <!-- Dynamic Client Contacts Section -->
+      <fieldset class="section">
+        <legend>Client Contacts</legend>
+        <div formArrayName="clientContacts">
+          <div *ngFor="let contact of clientContacts.controls; let i = index" class="contact-row" [formGroupName]="i">
+            <div class="form-row">
+              <!-- Contact Fields -->
+              <div class="form-group">
+                <label>Name:</label>
+                <input type="text" formControlName="name" placeholder="Contact Name" required />
+                <p *ngIf="contact.get('name')?.invalid && contact.get('name')?.touched"> Name must be between 2-50 characters.</p>
+              </div>
+
+              <div class="form-group">
+                <label>Email:</label>
+                <input type="email" formControlName="email" placeholder="Contact Email" required />
+                <p *ngIf="contact.get('email')?.invalid && contact.get('email')?.touched"> Enter a valid email.</p>
+              </div>
+
+              <div class="form-group">
+                <label>Phone:</label>
+                <input type="text" formControlName="phone" placeholder="Contact Phone" required />
+                <p *ngIf="contact.get('phone')?.invalid && contact.get('phone')?.touched"> Enter a valid phone number (10-15 digits).</p>
+              </div>
+
+              <!-- Delete Icon Button -->
+              <div class="icon-button-container">
+                <app-icon-button *ngIf="clientContacts.length > 1"
+                                 icon="bi bi-trash"
+                                 color="red"
+                                 type="button"
+                                 (clicked)="removeClientContact(i)">
+                </app-icon-button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add Contact Button -->
+        <div class="add-contact-container">
+          <app-action-button text="Add Contact"
+                             color="success"
+                             type="button"
+                             (clicked)="addClientContact()">
+          </app-action-button>
+        </div>
+      </fieldset>
+    </fieldset>
+
+    <hr />
+
+    <!-- Notes Section -->
+    <fieldset formGroupName="projectDetails">
+      <legend>Project Notes</legend>
+      <div formArrayName="notes">
+        <div *ngFor="let note of notes.controls; let i = index" [formGroupName]="i">
+          <div class="form-row">
+              <div class="form-group">
+                <textarea formControlName="noteText" placeholder="Enter project note..." required></textarea>
+              </div>
+              <div class="icon-button-container">
+                <app-icon-button *ngIf="notes.length > 1"
+                                 icon="bi bi-trash"
+                                 color="red"
+                                 type="button"
+                                 (clicked)="removeNote(i)">
+                </app-icon-button>
+                </div>
+              </div>
+            </div>
+          </div>
+           <div class="add-contact-container">
+            <app-action-button text="Add Note"
+                               color="success"
+                               type="button"
+                               (clicked)="addNote()">
+            </app-action-button>
+          </div>
+      </fieldset>
+
+      <!-- Show error message if submission fails -->
+      <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <div class="button-container">
+        <app-action-button type="submit"
+                           class="submit-btn"
+                           color="primary"
+                           [disabled]="isSubmitting || createProjectForm.invalid"
+                           [text]="createProjectForm.invalid ? 'Please Complete Form' : (isSubmitting ? 'Creating...' : 'Create Project')">
+        </app-action-button>
+      </div>
+</form>
+</div>

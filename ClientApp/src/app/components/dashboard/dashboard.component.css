@@ -1,0 +1,110 @@
+/* Project Header */
+h2 {
+    margin: 20px;
+}
+
+/* Search Form */
+.search-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.search-form input {
+  flex: 1;
+  padding: 8px;
+}
+
+/* Project Status Headers */
+.project-status-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.status-header {
+  display: flex;
+  max-height: 60px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status-header i {
+  padding-left: 10px;
+  font-size: 16px;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Project Table */
+.project-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 5px;
+}
+
+.project-table th, .project-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.project-table th {
+  background: #f4f4f4;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.icon-btn i {
+  font-size: 16px;
+}
+
+.edit-btn i {
+  color: #3498db;
+}
+
+.delete-btn i {
+  color: #e74c3c;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 10px;
+  width: 100%;
+}
+
+/* Search Form: Expands to 80% Width */
+.search-form {
+  flex-grow: 1;
+  max-width: 80%;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  align-items: center;
+}
+
+/* Create Project Button: Fixed Width */
+.create-project-btn {
+  flex-shrink: 0;
+  min-width: 180px;
+  padding: 10px;
+  font-size: 16px;
+  text-align: center;
+  height: 40px;
+}

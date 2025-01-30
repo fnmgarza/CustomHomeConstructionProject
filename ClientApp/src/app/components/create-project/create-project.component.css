@@ -1,0 +1,101 @@
+.create-project-container {
+  width: 80%; /* Expand the form width */
+  max-width: 1000px; /* Prevent it from getting too large */
+  margin: 40px auto;
+  padding: 30px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #f9f9f9;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+fieldset {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 25px;
+  background: #fdfdfd;
+}
+
+legend {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #007bff;
+  padding: 5px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+textarea {
+  min-height: 100px;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.icon-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+  min-width: 40px;
+  padding-bottom: 8px;
+}
+
+app-icon-button {
+  width: 40px;
+  height: 40px;
+}
+
+.add-contact-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%; 
+  margin-top: 15px;
+}
+
+.add-contact-container app-action-button {
+  max-width: 200px; 
+  width: 100%;
+}

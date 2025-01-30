@@ -1,0 +1,205 @@
+<!-- Edit Button -->
+<app-icon-button icon="bi bi-pencil"
+                 color="blue"
+                 (clicked)="openModal()">
+</app-icon-button>
+
+<!-- Modal -->
+<div class="modal-overlay" *ngIf="isOpen">
+  <div class="modal-container">
+    <div class="modal">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Project</h5>
+        <button (click)="closeModal()" class="close-btn">✖</button>
+      </div>
+
+      <!-- Scrollable Body -->
+      <div class="modal-body">
+        <form [formGroup]="editProjectForm">
+          <fieldset class="section" formGroupName="projectDetails">
+            <legend>Project Details</legend>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="projectName">Project Name:</label>
+                <input id="projectName" type="text" formControlName="projectName" required />
+                <span class="error" *ngIf="editProjectForm.get('projectDetails.projectName')?.touched && editProjectForm.get('projectDetails.projectName')?.invalid">
+                  Project name is required
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="projectStatus">Status:</label>
+                <select id="projectStatus" class="form-control" formControlName="statusId">
+                  <option *ngFor="let status of statuses" [value]="status.id">
+                    {{ status.statusName }}
+                  </option>
+                </select>
+                <span class="error" *ngIf="editProjectForm.get('projectDetails.projectStatus')?.touched && editProjectForm.get('projectDetails.projectStatus')?.invalid">
+                  Status is required
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="startDate">Start Date:</label>
+                <input id="startDate" type="date" formControlName="startDate" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="estimatedCompletionDate">Estimated Completion Date:</label>
+                <input id="estimatedCompletionDate" type="date" formControlName="estimatedCompletionDate" required />
+              </div>
+              <div class="form-group">
+                <label for="budget">Budget ($):</label>
+                <input id="budget" type="number" formControlName="budget" required />
+                <p *ngIf="editProjectForm.get('projectDetails.budget')?.invalid && editProjectForm.get('projectDetails.budget')?.touched">
+                  Budget must be greater than 0.
+                </p>
+              </div>
+            </div>
+          </fieldset>
+
+          <hr />
+
+          <!-- Client Information -->
+          <fieldset class="section" formGroupName="client">
+            <legend>Client Information</legend>
+            <div class="form-group">
+              <label for="clientName">Client Name:</label>
+              <input id="clientName" type="text" formControlName="clientName" required />
+              <p *ngIf="editProjectForm.get('client.clientName')?.invalid && editProjectForm.get('client.clientName')?.touched"> Client Name must be between 3-100 characters.</p>
+
+            </div>
+
+            <!-- Address -->
+            <fieldset class="sub-section mt-3" formGroupName="address">
+              <legend>Address</legend>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="street">Street Address:</label>
+                  <input id="street" type="text" formControlName="street" required />
+                  <p *ngIf="editProjectForm.get('client.address.street')?.invalid && editProjectForm.get('client.address.street')?.touched">
+                    Address is required.
+                  </p>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="city">City:</label>
+                  <input id="city" type="text" formControlName="city" required />
+                  <p *ngIf="editProjectForm.get('client.address.city')?.invalid && editProjectForm.get('client.address.city')?.touched">
+                    City is required.
+                  </p>
+                </div>
+                <div class="form-group">
+                  <label for="state">State:</label>
+                  <input id="state" type="text" formControlName="state" required />
+                  <p *ngIf="editProjectForm.get('client.address.state')?.invalid && editProjectForm.get('client.address.state')?.touched">
+                    State is required.
+                  </p>
+                </div>
+                <div class="form-group">
+                  <label for="zipCode">Zip Code:</label>
+                  <input id="zipCode" type="text" formControlName="zipCode" required />
+                  <p *ngIf="editProjectForm.get('client.address.zipCode')?.invalid && editProjectForm.get('client.address.zipCode')?.touched">
+                    Zip Code must be 5 digits.
+                  </p>
+                </div>
+              </div>
+            </fieldset>
+
+            <hr />
+
+            <!-- Client Contacts -->
+            <fieldset class="section">
+              <legend>Client Contacts</legend>
+              <div formArrayName="clientContacts">
+                <div *ngFor="let contact of clientContacts.controls; let i = index" [formGroupName]="i">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>Name:</label>
+                      <input type="text" formControlName="name" required />
+                      <p *ngIf="contact.get('name')?.invalid && contact.get('name')?.touched"> Name must be between 2-50 characters.</p>
+
+                    </div>
+                    <div class="form-group">
+                      <label>Email:</label>
+                      <input type="email" formControlName="email" required />
+                      <p *ngIf="contact.get('email')?.invalid && contact.get('email')?.touched"> Enter a valid email.</p>
+                    </div>
+                    <div class="form-group">
+                      <label>Phone:</label>
+                      <input type="text" formControlName="phone" required />
+                      <p *ngIf="contact.get('phone')?.invalid && contact.get('phone')?.touched"> Enter a valid phone number (10-15 digits).</p>
+                    </div>
+                  
+                    <!-- Delete Icon Button -->
+                    <div class="icon-button-container">
+                      <app-icon-button *ngIf="clientContacts.length > 1"
+                                       icon="bi bi-trash"
+                                       color="red"
+                                       type="button"
+                                       (clicked)="removeClientContact(i)">
+                      </app-icon-button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Add Contact Button -->
+              <div class="add-contact-container">
+                <app-action-button text="Add Contact"
+                                   color="success"
+                                   type="button"
+                                   (clicked)="addClientContact()">
+                </app-action-button>
+
+              </div>
+            </fieldset>
+          </fieldset>
+          <hr />
+
+          <!-- Notes -->
+          <fieldset formGroupName="projectDetails">
+            <legend>Project Notes</legend>
+            <div formArrayName="notes">
+              <div *ngFor="let note of notes.controls; let i = index">
+                <div class="form-row">
+                  <div class="form-group">
+                    <textarea [formControlName]="i" placeholder="Enter project note..."></textarea>
+                  </div>
+                  <app-icon-button *ngIf="notes.length > 1"
+                                   icon="bi bi-trash"
+                                   color="red"
+                                   type="button"
+                                   (clicked)="removeNote(i)">
+                  </app-icon-button>
+                </div>
+              </div>
+            </div>
+            <div class="add-contact-container">
+              <app-action-button text="Add Note"
+                                 color="success"
+                                 type="button"
+                                 (clicked)="addNote()">
+              </app-action-button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+
+      <!-- Fixed Footer -->
+      <div class="modal-footer">
+        <app-action-button type="button"
+                           color="secondary"
+                           (click)="closeModal()"
+                           text="Cancel">
+        </app-action-button>
+        <app-action-button type="submit"
+                           class="submit-btn"
+                           color="primary"
+                           [disabled]="editProjectForm.invalid"
+                           (click)="saveProject()"
+                           [text]="editProjectForm.invalid ? 'Please Complete Form' : 'Save'">
+        </app-action-button>
+      </div>
+    </div>
+  </div>
+</div>

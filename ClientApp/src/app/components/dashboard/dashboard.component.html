@@ -1,0 +1,75 @@
+<!-- Show Empty State When No Projects Exist -->
+<app-empty-project-state *ngIf="isEmpty && !creatingProject" (createProject)="showCreateProject()"></app-empty-project-state>
+
+<!-- Show Create Project Form -->
+<app-create-project *ngIf="creatingProject" (projectCreated)="onProjectCreated()"></app-create-project>
+
+<!-- Show Project Dashboard If Projects Exist -->
+<div *ngIf="!isEmpty && !creatingProject">
+  <h2>Project Dashboard</h2>
+
+  <div class="dashboard-header">
+    <!-- Search Form (Expands 80% of width) -->
+    <form [formGroup]="searchForm" class="search-form">
+      <input class="search-bar" type="text" formControlName="searchQuery" placeholder="Search projects..." />
+    </form>
+
+    <!-- Create Project Button (Fixed Width) -->
+    <app-action-button text="Create Project"
+                       color="primary"
+                       type="button"
+                       (clicked)="showCreateProject()"
+                       class="create-project-btn">
+    </app-action-button>
+  </div>
+
+  <!-- Project Table -->
+  <div class="project-status-container">
+    <ng-container *ngFor="let status of projectStatuses">
+
+      <!-- Collapsible Status Header -->
+      <div class="status-header" [ngStyle]="{'background-color': status.color}" (click)="toggleStatus(status.statusName)">
+        <h4>{{ status.statusName }} ({{ projectsGrouped[status.statusName].length }})</h4>
+        <i class="bi" [ngClass]="collapsedStatuses[status.statusName] ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+      </div>
+
+      <ng-container *ngIf="(projectsGrouped[status.statusName]?.length ?? 0) > 0">
+        <!-- Status Table (Collapsible) -->
+        <table class="project-table" *ngIf="!collapsedStatuses[status.statusName]">
+          <thead>
+            <tr>
+              <th>Project Name</th>
+              <th>Client Name</th>
+              <th>Start Date</th>
+              <th>Estimated Completion</th>
+              <th>Budget</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let project of (projectsGrouped[status.statusName] ?? [])">
+              <td>{{ project.projectDetails.projectName }}</td>
+              <td>{{ project.client.clientName }}</td>
+              <td>{{ project.projectDetails.startDate | date }}</td>
+              <td>{{ project.projectDetails.estimatedCompletionDate | date }}</td>
+              <td>{{ project.projectDetails.budget | currency }}</td>
+              <td>
+                <!-- Edit Project -->
+                <app-edit-project [project]="project"
+                                  (projectUpdated)="onProjectUpdated($event)">
+                </app-edit-project>
+
+                <!-- Delete Project -->
+                <app-delete-project [projectName]="project.projectDetails.projectName"
+                                    [projectId]="project.projectDetails.id"
+                                    (projectDeleted)="onProjectDeleted($event)">
+                </app-delete-project>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
