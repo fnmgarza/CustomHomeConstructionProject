@@ -26,3 +26,15 @@ Ensure you have the following installed:
 |-------------|---------|--------------|
 |Role	|Email	|Password
 |Admin	|admin@example.com	|Admin@1234
+
+
+### **How To Run**
+1.  Clone the Repository
+```
+git clone https://github.com/YourUsername/CustomHomeConstructionProject.git
+cd CustomHomeConstructionProject
+```
+2. Open CustomHomeConstructionProject.sln in Visual Studio.
+3. Debug CustomHomeConstructionProjects
+4. All required databases will be migrated upon testing
+5. Use test credentials above to test. If you create acount using Identity front end, you will need to click the link after sign up to verify email.
